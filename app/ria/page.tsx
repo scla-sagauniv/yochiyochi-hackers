@@ -22,10 +22,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Ria() {
   const { register, handleSubmit, reset } = useForm()
-   
+
   const uniqueId = uuidv4();
   type TaskType = {
-    id: number
+    id: string
     task: string
     isDone: boolean
   }
@@ -33,30 +33,30 @@ export default function Ria() {
   const [tasks, setTask] = useState<TaskType[]>([])
   const [donetasks, setDoneTask] = useState<TaskType[]>([])
 
-  
 
- 
-  
+
+
+
   // tasks配列に追加フォームに入れたtaskを入れる
   const handleClick = (taskItem: string): void => {
     setTask([...tasks, { id: uniqueId, task: taskItem, isDone: false }])
   }
-  function onSubmit(values) {
+  function onSubmit(values: any) {
     console.log('ssssss', values.t)
-    console.log("value",values)
-    if(values.t===""){
+    console.log("value", values)
+    if (values.t === "") {
       console.log("err")
       alert("タスクを入力してください")
     }
-    else{
+    else {
       console.log("sucsees")
       handleClick(values.t)
-      
+
     }
 
-    
+
     reset()
-    
+
   }
 
   //donetasks配列に完了したdonetaskを入れる
@@ -64,43 +64,43 @@ export default function Ria() {
     setDoneTask([...donetasks, doneItem])
   }
 
-  function DoneTaskfc(id: number) {
+  function DoneTaskfc(id: string) {
     console.log('donedone', id)
     // idを基にtaskを検索
     const donetask = tasks.filter(task => task.id === id)
     console.log('donedone', donetask)
     DonehandleClick(donetask[0])
     // tasksから削除
-    setTask(tasks.filter(task=> task.id!=id))
+    setTask(tasks.filter(task => task.id != id))
   }
-  
 
-  function ReDofc(id: number){
-    console.log("rere",id)
+
+  function ReDofc(id: string) {
+    console.log("rere", id)
     const redotask = donetasks.filter(donetask => donetask.id === id)
     // console.log('retask',redotask)
-    console.log([...tasks,redotask[0]])
-    setTask([...tasks,redotask[0]])
+    console.log([...tasks, redotask[0]])
+    setTask([...tasks, redotask[0]])
     setDoneTask(donetasks.filter(donetask => donetask.id != id))
-  
+
   }
-  
+
 
   //reset
   function Reset() {
-      console.log('reset',"aaa")
-      
-      setTask([])
-      setDoneTask([])
-      console.log(tasks)
-      
+    console.log('reset', "aaa")
+
+    setTask([])
+    setDoneTask([])
+    console.log(tasks)
+
 
   }
 
   //delete
-  function TaskDelet(id:number){
-     console.log('delete',id)
-     setTask(tasks.filter(task => task.id != id))
+  function TaskDelet(id: string) {
+    console.log('delete', id)
+    setTask(tasks.filter(task => task.id != id))
   }
   return (
     <div>
@@ -118,13 +118,13 @@ export default function Ria() {
             placeholder="タスクを入力"
             id="task"
             {...register('t')}
-            
+
           />
 
 
-            
- 
-          
+
+
+
           <Button colorScheme="orange" size="md" type="submit">
             追加
           </Button>
@@ -136,7 +136,7 @@ export default function Ria() {
           <TabList className="Tab">
             <Tab>Do</Tab>
             <Tab>Done</Tab>
-            
+
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -162,10 +162,10 @@ export default function Ria() {
                           </span>
                           <span>
                             <Button
-                                className="deleteButton"
-                                colorScheme="orange"
-                                size="md"
-                                onClick={() =>TaskDelet(i.id)}
+                              className="deleteButton"
+                              colorScheme="orange"
+                              size="md"
+                              onClick={() => TaskDelet(i.id)}
                             >
                               削除
 
@@ -203,14 +203,14 @@ export default function Ria() {
                 </ul>
               </div>
             </TabPanel>
-           
+
           </TabPanels>
         </Tabs>
       </div>
 
       <div className="reset">
         <Button colorScheme="orange" size="md"
-        onClick={Reset}
+          onClick={Reset}
         >
           リセット
         </Button>
