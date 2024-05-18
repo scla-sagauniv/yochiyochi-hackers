@@ -153,22 +153,22 @@ export default function Page() {
   //データをlocalstorageから持ってくる．
   // localStorageからデータを取得
   const dataString = localStorage.getItem("data");
+  const [dateTime, settime] = useState('');
   const [item, setItem] = useState('');
+  const [inout, setInout] = useState('');
+  const [amount, setAmount] = useState('');
+  const [details, setDetails] = useState('');
+  let dataArray = []
 
 
   if (dataString !== null) {
     // データがnullでない場合、文字列から配列に変換
-    const dataArray = JSON.parse(dataString);
+    dataArray = JSON.parse(dataString);
 
-    // 配列から一つの要素を取得（例えば最初の要素）
-    const item = dataArray[3];
-
-
-    console.log(item);
+    // console.log(item);
   } else {
     console.log("データが見つかりませんでした。");
   }
-
 
 
 
@@ -200,17 +200,26 @@ export default function Page() {
                   </Tr>
                 </Thead>
                 <Tbody>
+                  <>
+                    {dataArray.map((date: any) => {
+                      if (date.inout == 0) {
+                        date.inout = '-';
+                      } else {
+                        date.inout = '+';
+                      }
+                      return (
+                        <>
+                          <Tr>
+                            <Td>{date.year}/{date.month}/{date.date}</Td>
+                            <Td>{date.item}</Td>
+                            <Td>{date.inout}</Td>
 
-
-                  <Tr>
-                    <Td>dateTime</Td>
-                    <Td>{item}</Td>
-                    <Td>inout</Td>
-                    <Td>amount</Td>
-                    <Td>details</Td>
-                  </Tr>
-
-
+                            <Td>{date.amount}</Td>
+                            <Td>{date.details}</Td>
+                          </Tr>
+                        </>)
+                    })}
+                  </>
                 </Tbody>
               </Table>
             </TableContainer>
