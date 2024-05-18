@@ -41,6 +41,7 @@ ChartJS.register(
 
 import { Radio, RadioGroup } from '@chakra-ui/react'
 import { DayChart } from './dayChart';
+import { MonthChart } from './monthChart';
 
 
 export default function Page() {
@@ -188,12 +189,7 @@ export default function Page() {
           </TabPanel>
           <TabPanel>
             <p>毎月の支出（月ごとの金額で折れ線）</p>
-            <div>
-              <Line
-                data={dataMonth}
-                options={{ responsive: true, maintainAspectRatio: true }}
-              />
-            </div>
+            <MonthChart />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -251,7 +247,7 @@ export default function Page() {
                   </FormControl>
                   <FormControl mt={4}>
                     <FormLabel>詳細</FormLabel>
-                    <Input name='details' placeholder='なし' required />
+                    <Input name='details' placeholder='なし' />
                   </FormControl>
                 </ModalBody>
                 <ModalFooter>

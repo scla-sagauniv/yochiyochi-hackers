@@ -36,7 +36,7 @@ export const options = {
 };
 
 
-export function DayChart() {
+export function MonthChart() {
 
     //データをlocalstorageから持ってくる．
     // localStorageからデータを取得
@@ -64,30 +64,42 @@ export function DayChart() {
 
     console.log(formList)
 
-    const today = new Date();
-    const oneDayAgo = new Date();
-    oneDayAgo.setDate(today.getDate() - 1)
-    const twoDayAgo = new Date();
-    twoDayAgo.setDate(today.getDate() - 2)
-    const threeDayAgo = new Date();
-    threeDayAgo.setDate(today.getDate() - 3)
-    const fourDayAgo = new Date();
-    fourDayAgo.setDate(today.getDate() - 4)
-    const fiveDayAgo = new Date();
-    fiveDayAgo.setDate(today.getDate() - 5)
-    const sixDayAgo = new Date();
-    sixDayAgo.setDate(today.getDate() - 6)
-    const dateList = [sixDayAgo, fiveDayAgo, fourDayAgo, threeDayAgo, twoDayAgo, oneDayAgo, today]
+    const thisMonth = new Date();
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(thisMonth.getMonth() - 1)
+    const twoMonthAgo = new Date();
+    twoMonthAgo.setMonth(thisMonth.getMonth() - 2)
+    const threeMonthAgo = new Date();
+    threeMonthAgo.setMonth(thisMonth.getMonth() - 3)
+    const fourMonthAgo = new Date();
+    fourMonthAgo.setMonth(thisMonth.getMonth() - 4)
+    const fiveMonthAgo = new Date();
+    fiveMonthAgo.setMonth(thisMonth.getMonth() - 5)
+    const sixMonthAgo = new Date();
+    sixMonthAgo.setMonth(thisMonth.getMonth() - 6)
+    const sevenMonthAgo = new Date();
+    sevenMonthAgo.setMonth(thisMonth.getMonth() - 7)
+    const eightMonthAgo = new Date();
+    eightMonthAgo.setMonth(thisMonth.getMonth() - 8)
+    const nineMonthAgo = new Date();
+    nineMonthAgo.setMonth(thisMonth.getMonth() - 9)
+    const tenMonthAgo = new Date();
+    tenMonthAgo.setMonth(thisMonth.getMonth() - 10)
+    const elevenMonthAgo = new Date();
+    elevenMonthAgo.setMonth(thisMonth.getMonth() - 11)
+
+
+    const dateList = [elevenMonthAgo, tenMonthAgo, nineMonthAgo, eightMonthAgo, sevenMonthAgo, sixMonthAgo, fiveMonthAgo, fourMonthAgo, threeMonthAgo, twoMonthAgo, oneMonthAgo, thisMonth]
     const inSumArray: number[] = []
     const outSumArray: number[] = []
 
     dateList.forEach(date => {
         const filtered = formList.filter((form: any) => {
-            // console.log("year", form.date.getFullYear(), date.getFullYear())
-            // console.log("month", form.date.getMonth(), date.getMonth());
-            // console.log("date", form.date.getDate(), date.getDate())
+            console.log("year", form.date.getFullYear(), date.getFullYear())
+            console.log("month", form.date.getMonth(), date.getMonth());
+            console.log("date", form.date.getDate(), date.getDate())
 
-            return form.date.getFullYear() === date.getFullYear() && form.date.getMonth() === date.getMonth() + 1 && form.date.getDate() === date.getDate()
+            return form.date.getFullYear() === date.getFullYear() && form.date.getMonth() === date.getMonth() + 1
 
         })
 
@@ -108,30 +120,43 @@ export function DayChart() {
 
     })
 
-    const labelsWeek = dateList.map(date => {
-        if (date.getDay() === 0) {
-            return "日";
-        } else if (date.getDay() === 1) {
-            return "月";
-        } else if (date.getDay() === 2) {
-            return "火";
-        } else if (date.getDay() === 3) {
-            return "水";
-        } else if (date.getDay() === 4) {
-            return "木";
-        } else if (date.getDay() === 5) {
-            return "金";
-        } else if (date.getDay() === 6) {
-            return "土";
-        }
+    //const labelsMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
+    const labelsMonth = dateList.map(date => {
+        if (date.getMonth() === 0) {
+            return "1月";
+        } else if (date.getMonth() === 1) {
+            return "2月";
+        } else if (date.getMonth() === 2) {
+            return "3月";
+        } else if (date.getMonth() === 3) {
+            return "4月";
+        } else if (date.getMonth() === 4) {
+            return "5月";
+        } else if (date.getMonth() === 5) {
+            return "6月";
+        } else if (date.getMonth() === 6) {
+            return "7月";
+        } else if (date.getMonth() === 7) {
+            return "8月";
+        } else if (date.getMonth() === 8) {
+            return "9月";
+        } else if (date.getMonth() === 9) {
+            return "10月";
+        } else if (date.getMonth() === 10) {
+            return "11月";
+        } else if (date.getMonth() === 11) {
+            return "12月";
+        }
     })
+    console.log(labelsMonth);
+
 
 
 
 
     const dataDate = {
-        labels: labelsWeek,
+        labels: labelsMonth,
         datasets: [
             {
                 label: '収入',
