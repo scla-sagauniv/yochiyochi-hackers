@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import {
   Tooltip,
   Table,
@@ -30,6 +31,12 @@ let testData = [
 ];
 
 export default function Nanako() {
+  const [isVisibleAnswer, setIsVisibleAnswer] = useState(false);
+  const switchVisibleAnswer = () => {
+    setIsVisibleAnswer(!isVisibleAnswer);
+    console.log(isVisibleAnswer);
+  };
+
   return (
     <>
       <Heading color="red" size="md">
@@ -48,8 +55,14 @@ export default function Nanako() {
               </Td>
               <Td align="center" width="">
                 <Stack direction="row" spacing={4} align="center">
-                  <Button colorScheme="teal" variant="outline">
-                    すべての回答を表示
+                  <Button
+                    colorScheme="teal"
+                    variant="outline"
+                    onClick={switchVisibleAnswer}
+                  >
+                    {isVisibleAnswer
+                      ? "すべての回答を非表示"
+                      : "すべての回答を表示"}
                   </Button>
                 </Stack>
               </Td>
@@ -72,7 +85,7 @@ export default function Nanako() {
                   </Tooltip>
                 </Td>
                 {/* ボタンによって表示切替 */}
-                <Td>{data.answer}</Td>
+                <Td>{isVisibleAnswer ? data.answer : ""}</Td>
               </Tr>
             ))}
           </Tbody>
