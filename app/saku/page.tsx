@@ -110,7 +110,6 @@ export default function Page() {
           <Tab>週間グラフ</Tab>
           <Tab>月間グラフ</Tab>
           <Tab>年間グラフ</Tab>
-          <Tab>まとめ</Tab>
         </TabList>
 
         <TabPanels>
@@ -164,9 +163,6 @@ export default function Page() {
           <TabPanel>
             <p>毎月の支出（月ごとの金額で折れ線）</p>
             <YearlyChart />
-          </TabPanel>
-          <TabPanel>
-            <p>まとめ</p>
           </TabPanel>
         </TabPanels>
       </Tabs>
