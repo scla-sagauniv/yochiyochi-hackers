@@ -40,9 +40,23 @@ ChartJS.register(
 );
 
 import { Radio, RadioGroup } from '@chakra-ui/react'
+import { DayChart } from './dayChart';
 
 
 export default function Page() {
+  //データをlocalstorageから持ってくる．
+  // localStorageからデータを取得
+  const dataString = localStorage.getItem("data");
+  let dataArray = []
+
+  if (dataString !== null) {
+    // データがnullでない場合、文字列から配列に変換
+    dataArray = JSON.parse(dataString);
+
+    // console.log(item);
+  } else {
+    console.log("データが見つかりませんでした。");
+  }
 
   /* 新規追加
   const new = () => {
@@ -54,43 +68,6 @@ export default function Page() {
     display: "flex",
     justifyContent: "space-between"
   }
-
-  //タブ2のデータ
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart',
-      },
-    },
-  };
-
-
-
-  const labelsWeek = ['日', '月', '火', '水', '木', '金', '土'];
-  const dataDate = {
-    labelsWeek,
-    datasets: [
-      {
-        label: '収入',
-        data: 73,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: '支出',
-        data: 23,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
-
-
 
   const labelsMonth = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
   const dataMonth = {
@@ -150,25 +127,6 @@ export default function Page() {
     onClose();
   }
 
-  //データをlocalstorageから持ってくる．
-  // localStorageからデータを取得
-  const dataString = localStorage.getItem("data");
-  const [dateTime, settime] = useState('');
-  const [item, setItem] = useState('');
-  const [inout, setInout] = useState('');
-  const [amount, setAmount] = useState('');
-  const [details, setDetails] = useState('');
-  let dataArray = []
-
-
-  if (dataString !== null) {
-    // データがnullでない場合、文字列から配列に変換
-    dataArray = JSON.parse(dataString);
-
-    // console.log(item);
-  } else {
-    console.log("データが見つかりませんでした。");
-  }
 
 
 
@@ -226,13 +184,7 @@ export default function Page() {
           </TabPanel>
           <TabPanel>
             <p>支出の推移（月内での折れ線）</p>
-
-            <div>
-              <Line
-                data={dataDate}
-                options={{ responsive: true, maintainAspectRatio: true }}
-              />
-            </div>
+            <DayChart />
           </TabPanel>
           <TabPanel>
             <p>毎月の支出（月ごとの金額で折れ線）</p>
