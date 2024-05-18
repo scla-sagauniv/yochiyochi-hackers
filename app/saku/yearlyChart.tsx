@@ -36,7 +36,7 @@ export const options = {
 };
 
 
-export function MonthChart() {
+export function YearlyChart() {
 
     //データをlocalstorageから持ってくる．
     // localStorageからデータを取得

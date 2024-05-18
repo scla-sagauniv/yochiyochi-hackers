@@ -36,7 +36,7 @@ export const options = {
 };
 
 
-export function DayChart() {
+export function WeeklyChart() {
 
     //データをlocalstorageから持ってくる．
     // localStorageからデータを取得

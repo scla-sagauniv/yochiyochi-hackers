@@ -40,8 +40,9 @@ ChartJS.register(
 );
 
 import { Radio, RadioGroup } from '@chakra-ui/react'
-import { DayChart } from './dayChart';
-import { MonthChart } from './monthChart';
+import { WeeklyChart } from './weeklyChart';
+import { MonthlyChart } from './monthlyChart';
+import { YearlyChart } from './yearlyChart';
 
 
 export default function Page() {
@@ -70,46 +71,13 @@ export default function Page() {
     justifyContent: "space-between"
   }
 
-  const labelsMonth = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
-  const dataMonth = {
-    labelsMonth,
-    datasets: [
-      {
-        label: '収入',
-        data: 73,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: '支出',
-        data: 53,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
-  /*[
-      {
-        label: 'Dataset 1',
-        data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],*/
-
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
 
-
+  //データをlocalstorageに格納
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -130,7 +98,7 @@ export default function Page() {
 
 
 
-
+  //表示
   return (
     <Box p={4}>
       {/* タイトル */}
@@ -140,7 +108,9 @@ export default function Page() {
         <TabList>
           <Tab>Home</Tab>
           <Tab>週間グラフ</Tab>
+          <Tab>月間グラフ</Tab>
           <Tab>年間グラフ</Tab>
+          <Tab>まとめ</Tab>
         </TabList>
 
         <TabPanels>
@@ -155,7 +125,7 @@ export default function Page() {
                     <Th>項目</Th>
                     <Th>支出入（＋－）</Th>
                     <Th>金額</Th>
-                    <Th>詳細</Th>
+                    <Th>詳細(任意)</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -185,11 +155,18 @@ export default function Page() {
           </TabPanel>
           <TabPanel>
             <p>支出の推移（月内での折れ線）</p>
-            <DayChart />
+            <WeeklyChart />
+          </TabPanel>
+          <TabPanel>
+            <p>支出の推移（月内での折れ線）</p>
+            <MonthlyChart />
           </TabPanel>
           <TabPanel>
             <p>毎月の支出（月ごとの金額で折れ線）</p>
-            <MonthChart />
+            <YearlyChart />
+          </TabPanel>
+          <TabPanel>
+            <p>まとめ</p>
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -211,19 +188,20 @@ export default function Page() {
                 <ModalHeader>支出入の入力をしてください．</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody pb={6}>
-
-                  <FormControl mt={4}>
-                    <FormLabel>年</FormLabel>
-                    <Input name='year' ref={initialRef} placeholder='例）2012' type='number' required max='2024' />
-                  </FormControl>
-                  <FormControl mt={4}>
-                    <FormLabel>月</FormLabel>
-                    <Input name='month' ref={initialRef} placeholder='例）8' type='number' required min='1' max='12' />
-                  </FormControl>
-                  <FormControl mt={4}>
-                    <FormLabel>日</FormLabel>
-                    <Input name='date' ref={initialRef} placeholder='例）30' type='number' required min='1' max='31' />
-                  </FormControl>
+                  <div className='bottom-list' style={containerStyle}>
+                    <FormControl mt={4}>
+                      <FormLabel>年</FormLabel>
+                      <Input name='year' ref={initialRef} placeholder='例）2012' type='number' required max='2024' />
+                    </FormControl>
+                    <FormControl mt={4}>
+                      <FormLabel>月</FormLabel>
+                      <Input name='month' ref={initialRef} placeholder='例）8' type='number' required min='1' max='12' />
+                    </FormControl>
+                    <FormControl mt={4}>
+                      <FormLabel>日</FormLabel>
+                      <Input name='date' ref={initialRef} placeholder='例）30' type='number' required min='1' max='31' />
+                    </FormControl>
+                  </div>
                   <FormControl mt={4}>
                     <FormLabel>項目</FormLabel>
                     <Input name='item' placeholder='例）給料' required />
@@ -233,10 +211,10 @@ export default function Page() {
                     <RadioGroup name='inout' defaultValue='0'>
                       <Stack spacing={5} direction='row'>
                         <Radio colorScheme='green' value='0'>
-                          -
+                          -（支出）
                         </Radio>
                         <Radio colorScheme='red' value='1'>
-                          +
+                          +（収入）
                         </Radio>
                       </Stack>
                     </RadioGroup>
@@ -262,6 +240,6 @@ export default function Page() {
         </>
         <Button colorScheme="teal" size="md" /*onClick={returnHome}*/>Homeへ戻る</Button>
       </div>
-    </Box>
+    </Box >
   );
 }
