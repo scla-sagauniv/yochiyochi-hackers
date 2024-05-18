@@ -151,7 +151,23 @@ export default function Page() {
   }
 
   //データをlocalstorageから持ってくる．
+  // localStorageからデータを取得
+  const dataString = localStorage.getItem("data");
+  const [item, setItem] = useState('');
 
+
+  if (dataString !== null) {
+    // データがnullでない場合、文字列から配列に変換
+    const dataArray = JSON.parse(dataString);
+
+    // 配列から一つの要素を取得（例えば最初の要素）
+    const item = dataArray[3];
+
+
+    console.log(item);
+  } else {
+    console.log("データが見つかりませんでした。");
+  }
 
 
 
@@ -188,7 +204,7 @@ export default function Page() {
 
                   <Tr>
                     <Td>dateTime</Td>
-                    <Td>item</Td>
+                    <Td>{item}</Td>
                     <Td>inout</Td>
                     <Td>amount</Td>
                     <Td>details</Td>
