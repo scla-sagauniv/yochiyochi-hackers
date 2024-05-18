@@ -21,7 +21,12 @@ li {
     display: flex;
     justify-content: space-between;
     margin: 5px;
-    font-size:25px;
+    font-size:22px;
 }
 
 
+
+
+h1{
+    font-size:30px;
+}

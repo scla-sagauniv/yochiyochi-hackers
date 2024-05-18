@@ -11,8 +11,9 @@ import {
   Heading,
   useToast,
   background,
+  Stack,
 } from '@chakra-ui/react'
-
+import { Radio, RadioGroup } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { flushAllTraces, getTraceEvents } from 'next/dist/trace'
@@ -31,10 +32,10 @@ export default function Ria() {
 
   const [tasks, setTask] = useState<TaskType[]>([])
   const [donetasks, setDoneTask] = useState<TaskType[]>([])
+
   
-  //const handleAlert =()=>{
-//alert("タスクを入力してください")
- // }
+
+ 
   
   // tasks配列に追加フォームに入れたtaskを入れる
   const handleClick = (taskItem: string): void => {
@@ -50,7 +51,10 @@ export default function Ria() {
     else{
       console.log("sucsees")
       handleClick(values.t)
+      
     }
+
+    
     reset()
     
   }
@@ -100,6 +104,7 @@ export default function Ria() {
   }
   return (
     <div>
+      <h1>TODO管理アプリ</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           id="taskname"
@@ -107,7 +112,7 @@ export default function Ria() {
             console.log('data: ', data)
           })}
         >
-          <FormLabel htmlFor="task">タスクの追加</FormLabel>
+          <FormLabel htmlFor="task"><p className="label">タスクの追加</p></FormLabel>
           <Input
             type="text"
             placeholder="タスクを入力"
@@ -115,6 +120,11 @@ export default function Ria() {
             {...register('t')}
             
           />
+
+
+            
+ 
+          
           <Button colorScheme="orange" size="md" type="submit">
             追加
           </Button>
@@ -126,6 +136,7 @@ export default function Ria() {
           <TabList className="Tab">
             <Tab>Do</Tab>
             <Tab>Done</Tab>
+            
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -192,6 +203,7 @@ export default function Ria() {
                 </ul>
               </div>
             </TabPanel>
+           
           </TabPanels>
         </Tabs>
       </div>
