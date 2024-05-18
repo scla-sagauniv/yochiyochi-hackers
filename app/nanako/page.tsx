@@ -18,7 +18,11 @@ import {
 } from "../common/components";
 
 let testData = [
-  { question: "hoge", answer: "fuga" },
+  {
+    question:
+      "兄が好きすぎて正月に帰省した時構ってくれなかったときには馬乗りになったというエピソードや、彼女が持つ美貌からオードリーヘップバーンを真似した「アオイ・ヘップバーン」の異名もある、現在は同じラジオで仲良くなった小原好美に「彼女は私の娘」と呼ばれるまで人気を博しているが、下積み時代にはご飯にお湯をかけポン酢で食べていたほど苦労が垣間見える、主な出演作に『先輩がうざい後輩の話』や『かぐや様は告らせたい』がある、女性声優は誰でしょう？",
+    answer: "古賀葵",
+  },
   { question: "piyo", answer: "fuga" },
   { question: "hoge", answer: "fuga" },
   { question: "hoge", answer: "fuga" },
@@ -42,18 +46,18 @@ export default function Nanako() {
       <Heading color="red" size="md">
         QUIZ
       </Heading>
-      <TableContainer>
+      <TableContainer whiteSpace="unset" maxWidth="100%">
         <Table colorScheme="black">
           <Thead>
             <Tr>
-              <Td width="20"></Td>
-              <Td align="center" width="1800">
+              <Td width="10%"></Td>
+              <Td align="center" width="40%">
                 問　題
               </Td>
-              <Td align="center" width="">
+              <Td align="center" width="10%">
                 回　答
               </Td>
-              <Td align="center" width="">
+              <Td align="center" width="40%">
                 <Stack direction="row" spacing={4} align="center">
                   <Button
                     colorScheme="teal"
@@ -72,7 +76,7 @@ export default function Nanako() {
             {testData.map((data, index) => (
               <Tr>
                 <Td>{index + 1}</Td>
-                <Td align="center" height={30}>
+                <Td align="center" width="100">
                   {data.question}
                 </Td>
                 <Td align="center">
