@@ -48,16 +48,18 @@ import { YearlyChart } from './yearlyChart';
 export default function Page() {
   //データをlocalstorageから持ってくる．
   // localStorageからデータを取得
-  const dataString = localStorage.getItem("data");
   let dataArray = []
+  if (typeof window !== 'undefined') {
+    const dataString = window.localStorage.getItem("data");
 
-  if (dataString !== null) {
-    // データがnullでない場合、文字列から配列に変換
-    dataArray = JSON.parse(dataString);
+    if (dataString !== null) {
+      // データがnullでない場合、文字列から配列に変換
+      dataArray = JSON.parse(dataString);
 
-    // console.log(item);
-  } else {
-    console.log("データが見つかりませんでした。");
+      // console.log(item);
+    } else {
+      console.log("データが見つかりませんでした。");
+    }
   }
 
   /* 新規追加
@@ -81,17 +83,18 @@ export default function Page() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-
-    const data = localStorage.getItem("data");
-    if (!data) {
-      localStorage.setItem(
-        'data',
-        JSON.stringify([Object.fromEntries(formData)])
-      );
-    } else {
-      const parsedData = JSON.parse(data);
-      parsedData.push(Object.fromEntries(formData));
-      localStorage.setItem("data", JSON.stringify(parsedData))
+    if (typeof window !== undefined) {
+      const data = window.localStorage.getItem("data");
+      if (!data) {
+        window.localStorage.setItem(
+          'data',
+          JSON.stringify([Object.fromEntries(formData)])
+        );
+      } else {
+        const parsedData = JSON.parse(data);
+        parsedData.push(Object.fromEntries(formData));
+        window.localStorage.setItem("data", JSON.stringify(parsedData))
+      }
     }
     onClose();
   }

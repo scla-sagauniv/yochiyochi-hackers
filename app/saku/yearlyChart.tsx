@@ -40,16 +40,18 @@ export function YearlyChart() {
 
     //データをlocalstorageから持ってくる．
     // localStorageからデータを取得
-    const dataString = localStorage.getItem("data");
     let dataArray = []
+    if (typeof window !== 'undefined') {
+        const dataString = window.localStorage.getItem("data");
 
-    if (dataString !== null) {
-        // データがnullでない場合、文字列から配列に変換
-        dataArray = JSON.parse(dataString);
+        if (dataString !== null) {
+            // データがnullでない場合、文字列から配列に変換
+            dataArray = JSON.parse(dataString);
 
-        // console.log(item);
-    } else {
-        console.log("データが見つかりませんでした。");
+            // console.log(item);
+        } else {
+            console.log("データが見つかりませんでした。");
+        }
     }
 
     const formList = dataArray.map((d: any) => {
