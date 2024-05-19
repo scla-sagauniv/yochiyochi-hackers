@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const MotionButton = motion(Button);
 
 export default function Home() {
-  const handleNavigation = (url) => {
+  const handleNavigation = (url: string) => {
     window.location.href = url;
   };
 
