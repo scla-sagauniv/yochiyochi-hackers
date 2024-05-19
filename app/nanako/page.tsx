@@ -47,7 +47,7 @@ export default function answer() {
     setIsVisibleAnswer(!isVisibleAnswer);
     console.log(isVisibleAnswer);
   };
-  let flag = 0;
+
   function TransitionExample() {}
 
   const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
@@ -59,7 +59,7 @@ export default function answer() {
     {
       role: "user",
       content:
-        "Generate 10 sets of quiz questions and answers in a JSON object array format. Use Japanese for the question and the answer. competition quiz please.",
+        "Generate 10 sets of competition quiz questions and answers in a JSON object array format. Use Japanese for the question and the answer. Please take quizzes centered on trivia. Treating immutable things as question. Don't ask questions with the same answer. Issues related to different fields, regardless of country.",
     },
   ];
   async function openai() {
