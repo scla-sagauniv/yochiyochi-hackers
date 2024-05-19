@@ -44,6 +44,10 @@ import { WeeklyChart } from './weeklyChart';
 import { MonthlyChart } from './monthlyChart';
 import { YearlyChart } from './yearlyChart';
 
+import { motion } from 'framer-motion';
+
+const MotionButton = motion(Button);
+
 
 export default function Page() {
 
@@ -52,6 +56,11 @@ export default function Page() {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const handleNavigation = (url: string) => {
+    window.location.href = url;
+  };
+
 
 
   //データをlocalstorageから持ってくる．
@@ -70,11 +79,6 @@ export default function Page() {
     }
   }
 
-  /* 新規追加
-  const new = () => {
-  alert(`Email: ${email}\nPassword: ${password}`);
-  };
-  */
   //Bottomのレイアウト
   const containerStyle = {
     display: "flex",
@@ -128,7 +132,7 @@ export default function Page() {
 
         <TabPanels>
           <TabPanel>
-            <p>最近の支出入詳細</p>
+            <p>収支一覧</p>
             <TableContainer>
               <Table variant='simple'>
 
@@ -136,9 +140,9 @@ export default function Page() {
                   <Tr>
                     <Th>日時</Th>
                     <Th>項目</Th>
-                    <Th>支出入（＋－）</Th>
+                    <Th>収支（＋－）</Th>
                     <Th>金額</Th>
-                    <Th>詳細(任意)</Th>
+                    <Th>詳細（任意）</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -164,15 +168,15 @@ export default function Page() {
             </TableContainer>
           </TabPanel>
           <TabPanel>
-            <p>支出の推移（月内での折れ線）</p>
+            <p>収支の推移（週間）</p>
             <WeeklyChart />
           </TabPanel>
           <TabPanel>
-            <p>支出の推移（月内での折れ線）</p>
+            <p>収支の推移（月間）</p>
             <MonthlyChart />
           </TabPanel>
           <TabPanel>
-            <p>毎月の支出（月ごとの金額で折れ線）</p>
+            <p>収支の推移（年間）</p>
             <YearlyChart />
           </TabPanel>
         </TabPanels>
@@ -214,7 +218,7 @@ export default function Page() {
                     <Input name='item' placeholder='例）給料' required />
                   </FormControl>
                   <FormControl mt={4}>
-                    <FormLabel>支出入</FormLabel>
+                    <FormLabel>収支</FormLabel>
                     <RadioGroup name='inout' defaultValue='0'>
                       <Stack spacing={5} direction='row'>
                         <Radio colorScheme='green' value='0'>
@@ -231,7 +235,7 @@ export default function Page() {
                     <Input name='amount' placeholder='200000' type='number' required />
                   </FormControl>
                   <FormControl mt={4}>
-                    <FormLabel>詳細</FormLabel>
+                    <FormLabel>詳細（任意））</FormLabel>
                     <Input name='details' placeholder='なし' />
                   </FormControl>
                 </ModalBody>
@@ -245,7 +249,12 @@ export default function Page() {
             </ModalContent>
           </Modal>
         </>
-        <Button colorScheme="teal" size="md" /*onClick={returnHome}*/>Homeへ戻る</Button>
+        <Button
+          colorScheme="teal"
+          size="md"
+          onClick={() => handleNavigation('/')} >
+          Homeへ戻る
+        </Button>
       </div>
     </Box >
   );
