@@ -109,21 +109,20 @@ export default function answer() {
                 <Button colorScheme="teal" variant="solid">
                   クイズを生成する
                 </Button>
-                押すとAIがクイズを生成してくれます
+                を押すとAIがクイズを生成してくれます
               </li>
               <li>
                 <div style={buttonContainer}>
-                  <img src="答えのアイコン.png" width={40} />
+                  <p style={{ color: "white" }}>\</p>
+                  <img src="答えのアイコン.png" width={50} />
                   <p>にカーソルを合わせると答えが表示されます</p>
                 </div>
               </li>
               <li>
-                <div>
-                  <Button colorScheme="teal" variant="outline">
-                    すべての解答を表示
-                  </Button>
-                  を押すとすべての解答の表示非表示を切り替えることができます
-                </div>
+                <Button colorScheme="teal" variant="outline">
+                  すべての解答を表示
+                </Button>
+                を押すとすべての解答の表示非表示を切り替えることができます
               </li>
             </ul>
           </AlertDialogBody>
