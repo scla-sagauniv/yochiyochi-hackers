@@ -1,220 +1,34 @@
-'use client'
+// 'use client'
 import * as React from 'react'
 import './main.css'
-import { useState } from 'react'
-import {
-  Box,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
-  Heading,
-  useToast,
-  background,
-  Stack,
-} from '@chakra-ui/react'
-import { Radio, RadioGroup } from '@chakra-ui/react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
-import { flushAllTraces, getTraceEvents } from 'next/dist/trace'
+import {Tasklist} from "./tasklist"
+type TaskType = {
+  id: string
+  task: string
+  isDone: boolean
+}
 
-import { v4 as uuidv4 } from 'uuid';
+const fetcher = (url) =>
+  fetch(url).then((res) => res.json());
 
-export default function Ria() {
-  const { register, handleSubmit, reset } = useForm()
-
-  const uniqueId = uuidv4();
-  type TaskType = {
-    id: string
-    task: string
-    isDone: boolean
-  }
-
-  const [tasks, setTask] = useState<TaskType[]>([])
-  const [donetasks, setDoneTask] = useState<TaskType[]>([])
+export default async function Ria() {
+  //リスト一覧を取得する処理
+  // const getTodoList = async () => {
+  //   const res = await fetch('../api/todo')
+  //   const json = await res.json()
+  //   console.log("res", res)
+  //   console.log("json", json)
+  //   return json.todos //dbのtodo tableの要素を全て返す
+  // }
+  // // const { data, error } = useSWR<Response>(
+  // //   '/api/todo',
+  // //   fetcher
+  // // );
+  // const todoList = await getTodoList()
 
 
 
-
-
-  // tasks配列に追加フォームに入れたtaskを入れる
-  const handleClick = (taskItem: string): void => {
-    setTask([...tasks, { id: uniqueId, task: taskItem, isDone: false }])
-  }
-  function onSubmit(values: any) {
-    console.log('ssssss', values.t)
-    console.log("value", values)
-    if (values.t === "") {
-      console.log("err")
-      alert("タスクを入力してください")
-    }
-    else {
-      console.log("sucsees")
-      handleClick(values.t)
-
-    }
-
-
-    reset()
-
-  }
-
-  //donetasks配列に完了したdonetaskを入れる
-  const DonehandleClick = (doneItem: TaskType): void => {
-    setDoneTask([...donetasks, doneItem])
-  }
-
-  function DoneTaskfc(id: string) {
-    console.log('donedone', id)
-    // idを基にtaskを検索
-    const donetask = tasks.filter(task => task.id === id)
-    console.log('donedone', donetask)
-    DonehandleClick(donetask[0])
-    // tasksから削除
-    setTask(tasks.filter(task => task.id != id))
-  }
-
-
-  function ReDofc(id: string) {
-    console.log("rere", id)
-    const redotask = donetasks.filter(donetask => donetask.id === id)
-    // console.log('retask',redotask)
-    console.log([...tasks, redotask[0]])
-    setTask([...tasks, redotask[0]])
-    setDoneTask(donetasks.filter(donetask => donetask.id != id))
-
-  }
-
-
-  //reset
-  function Reset() {
-    console.log('reset', "aaa")
-
-    setTask([])
-    setDoneTask([])
-    console.log(tasks)
-
-
-  }
-
-  //delete
-  function TaskDelet(id: string) {
-    console.log('delete', id)
-    setTask(tasks.filter(task => task.id != id))
-  }
   return (
-    <div>
-      <h1>TODO管理アプリ</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl
-          id="taskname"
-          onSubmit={handleSubmit(data => {
-            console.log('data: ', data)
-          })}
-        >
-          <FormLabel htmlFor="task"><p className="label">タスクの追加</p></FormLabel>
-          <Input
-            type="text"
-            placeholder="タスクを入力"
-            id="task"
-            {...register('t')}
-
-          />
-
-
-
-
-
-          <Button colorScheme="orange" size="md" type="submit">
-            追加
-          </Button>
-        </FormControl>
-      </form>
-
-      <div className="main">
-        <Tabs>
-          <TabList className="Tab">
-            <Tab>Do</Tab>
-            <Tab>Done</Tab>
-
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              タスク
-              <div className="taskAll">
-                <ul>
-
-                  {tasks.map(i => {
-                    console.log('li', i)
-                    return (
-                      <li key={i.id}>
-                        {i.task}
-                        <div>
-                          <span>
-                            <Button
-                              className="DoneButton"
-                              colorScheme="teal"
-                              size="md"
-                              onClick={() => DoneTaskfc(i.id)}
-                            >
-                              完了
-                            </Button>
-                          </span>
-                          <span>
-                            <Button
-                              className="deleteButton"
-                              colorScheme="orange"
-                              size="md"
-                              onClick={() => TaskDelet(i.id)}
-                            >
-                              削除
-
-                            </Button>
-                          </span>
-
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              完了済み
-              <div className="DoneTask">
-                <ul>
-                  {donetasks.map(i => {
-                    return (
-                      <li key={i.id}>
-                        {i.task}
-                        <span>
-                          <Button
-                            className="ReDoButton"
-                            colorScheme="teal"
-                            size="md"
-                            onClick={() => ReDofc(i.id)}
-                          >
-                            取り消し
-                          </Button>
-                        </span>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </TabPanel>
-
-          </TabPanels>
-        </Tabs>
-      </div>
-
-      <div className="reset">
-        <Button colorScheme="orange" size="md"
-          onClick={Reset}
-        >
-          リセット
-        </Button>
-      </div>
-    </div>
+     <Tasklist />  
   )
 }
