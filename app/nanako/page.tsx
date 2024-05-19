@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Tooltip,
   Table,
@@ -15,6 +15,14 @@ import {
   ButtonGroup,
   Stack,
   Heading,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  useDisclosure,
 } from "../common/components";
 
 let testData = [
@@ -28,13 +36,18 @@ type quiz = {
   question: string;
   answer: string;
 };
+
 export default function answer() {
   const [isVisibleAnswer, setIsVisibleAnswer] = useState(false);
   const [quizData, setArray] = useState<quiz[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
   const switchVisibleAnswer = () => {
     setIsVisibleAnswer(!isVisibleAnswer);
     console.log(isVisibleAnswer);
   };
+  let flag = 0;
+  function TransitionExample() {}
 
   const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
   const ep = process.env["NEXT_PUBLIC_AZURE_OPENAI_ENDPOINT"];
@@ -45,7 +58,7 @@ export default function answer() {
     {
       role: "user",
       content:
-        "Generate 10 sets of quiz questions and answers in a JSON object array format. Answer in japanese.",
+        "Generate 10 sets of quiz questions and answers in a JSON object array format. Use Japanese for the question and the answer. competition quiz please.",
     },
   ];
   async function openai() {
@@ -65,9 +78,62 @@ export default function answer() {
         QUIZ
       </Heading>
       <br />
-      <Button colorScheme="teal" variant="solid" onClick={openai}>
+      <Button
+        // isLoading={!quizData.length}
+        colorScheme="teal"
+        variant="solid"
+        onClick={openai}
+        spinnerPlacement="start"
+      >
         クイズを生成する
       </Button>
+
+      <Button colorScheme="gray" variant="outline" onClick={onOpen}>
+        操作説明
+      </Button>
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogHeader>操作説明</AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            <ul>
+              <li>
+                <Button colorScheme="teal" variant="solid">
+                  クイズを生成する
+                </Button>
+                押すとAIがクイズを生成してくれます
+              </li>
+              <li>
+                <div style={buttonContainer}>
+                  <img src="答えのアイコン.png" width={40} />
+                  <p>にカーソルを合わせると答えが表示されます</p>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <Button colorScheme="teal" variant="outline">
+                    すべての解答を表示
+                  </Button>
+                  を押すとすべての解答の表示非表示を切り替えることができます
+                </div>
+              </li>
+            </ul>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button ref={cancelRef} onClick={onClose} colorScheme="blue">
+              Close
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <TableContainer whiteSpace="unset" maxWidth="100%">
         <Table colorScheme="black">
           <Thead>
@@ -80,7 +146,7 @@ export default function answer() {
               </Td>
               <Td width="15%">
                 <div style={{ textAlign: "center" }}>
-                  <b>回 答</b>
+                  <b>解 答</b>
                 </div>
               </Td>
               <Td align="center" width="28%">
@@ -91,8 +157,8 @@ export default function answer() {
                     onClick={switchVisibleAnswer}
                   >
                     {isVisibleAnswer
-                      ? "すべての回答を非表示"
-                      : "すべての回答を表示"}
+                      ? "すべての解答を非表示"
+                      : "すべての解答を表示"}
                   </Button>
                 </Stack>
               </Td>
@@ -124,3 +190,8 @@ export default function answer() {
     </>
   );
 }
+
+const buttonContainer = {
+  display: "flex",
+  "align-items": "center",
+};
