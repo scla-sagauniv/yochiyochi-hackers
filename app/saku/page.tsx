@@ -1,8 +1,8 @@
 'use client';
-import { FormEvent, useState } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, flexbox, Stack } from '@chakra-ui/react'
-import { Box, Button, Input, FormControl, FormLabel, Heading, useToast } from '@chakra-ui/react';
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
+import { useEffect, FormEvent, useState } from 'react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel, flexbox, Stack } from '../common/components'
+import { Box, Button, Input, FormControl, FormLabel, Heading, useToast } from '../common/components';
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '../common/components'
 import {
   Modal,
   ModalOverlay,
@@ -11,8 +11,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react'
-import { useDisclosure } from "@chakra-ui/react";
+} from '../common/components'
+import { useDisclosure } from "../common/components";
 
 
 import React from 'react';
@@ -39,13 +39,21 @@ ChartJS.register(
   Legend
 );
 
-import { Radio, RadioGroup } from '@chakra-ui/react'
+import { Radio, RadioGroup } from '../common/components'
 import { WeeklyChart } from './weeklyChart';
 import { MonthlyChart } from './monthlyChart';
 import { YearlyChart } from './yearlyChart';
 
 
 export default function Page() {
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+
   //データをlocalstorageから持ってくる．
   // localStorageからデータを取得
   let dataArray = []
@@ -75,9 +83,12 @@ export default function Page() {
 
 
   const { isOpen, onOpen, onClose } = useDisclosure()
-
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
+  if (!isClient) {
+    return <div></div>
+  }
+
 
   //データをlocalstorageに格納
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -131,26 +142,23 @@ export default function Page() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <>
-                    {dataArray.map((date: any) => {
-                      if (date.inout == 0) {
-                        date.inout = '-';
-                      } else {
-                        date.inout = '+';
-                      }
-                      return (
-                        <>
-                          <Tr>
-                            <Td>{date.year}/{date.month}/{date.date}</Td>
-                            <Td>{date.item}</Td>
-                            <Td>{date.inout}</Td>
+                  {dataArray.map((date: any, index: number) => {
+                    if (date.inout == 0) {
+                      date.inout = '-';
+                    } else {
+                      date.inout = '+';
+                    }
 
-                            <Td>{date.amount}</Td>
-                            <Td>{date.details}</Td>
-                          </Tr>
-                        </>)
-                    })}
-                  </>
+                    return (
+                      <Tr key={index}>
+                        <Td>{date.year}/{date.month}/{date.date}</Td>
+                        <Td>{date.item}</Td>
+                        <Td>{date.inout}</Td>
+                        <Td>{date.amount}</Td>
+                        <Td>{date.details}</Td>
+                      </Tr>
+                    )
+                  })}
                 </Tbody>
               </Table>
             </TableContainer>
