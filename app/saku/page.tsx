@@ -235,7 +235,7 @@ export default function Page() {
                     <Input name='amount' placeholder='200000' type='number' required />
                   </FormControl>
                   <FormControl mt={4}>
-                    <FormLabel>詳細（任意））</FormLabel>
+                    <FormLabel>詳細（任意）</FormLabel>
                     <Input name='details' placeholder='なし' />
                   </FormControl>
                 </ModalBody>
