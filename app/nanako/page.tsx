@@ -41,6 +41,7 @@ export default function answer() {
   const [isVisibleAnswer, setIsVisibleAnswer] = useState(false);
   const [quizData, setArray] = useState<quiz[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
   const cancelRef = useRef(null);
   const switchVisibleAnswer = () => {
     setIsVisibleAnswer(!isVisibleAnswer);
@@ -62,6 +63,7 @@ export default function answer() {
     },
   ];
   async function openai() {
+    setLoading(true);
     const client = new OpenAIClient(ep, new AzureKeyCredential(azureApiKey));
     const deploymentId = "yochiyochi-ai";
     const result = await client.getChatCompletions(deploymentId, messages);
@@ -70,6 +72,7 @@ export default function answer() {
       let data = JSON.parse(choice.message.content);
       setArray(data);
     }
+    setLoading(false);
   }
 
   return (
@@ -79,7 +82,7 @@ export default function answer() {
       </Heading>
       <br />
       <Button
-        // isLoading={!quizData.length}
+        isLoading={loading}
         colorScheme="teal"
         variant="solid"
         onClick={openai}
