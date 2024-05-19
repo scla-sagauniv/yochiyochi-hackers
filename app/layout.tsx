@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Provider from "./Provider";
 import Header from "./Header";
-import Body from "./Body";
 
 
 export const metadata: Metadata = {
@@ -20,9 +19,7 @@ export default function RootLayout({
       <body>
         <Provider>
           <Header />
-          <Body>
-            {children}
-          </Body>
+          {children}
         </Provider>
       </body>
     </html>
