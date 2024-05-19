@@ -44,6 +44,10 @@ import { WeeklyChart } from './weeklyChart';
 import { MonthlyChart } from './monthlyChart';
 import { YearlyChart } from './yearlyChart';
 
+import { motion } from 'framer-motion';
+
+const MotionButton = motion(Button);
+
 
 export default function Page() {
 
@@ -52,6 +56,11 @@ export default function Page() {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const handleNavigation = (url: string) => {
+    window.location.href = url;
+  };
+
 
 
   //データをlocalstorageから持ってくる．
@@ -70,11 +79,6 @@ export default function Page() {
     }
   }
 
-  /* 新規追加
-  const new = () => {
-  alert(`Email: ${email}\nPassword: ${password}`);
-  };
-  */
   //Bottomのレイアウト
   const containerStyle = {
     display: "flex",
@@ -245,7 +249,12 @@ export default function Page() {
             </ModalContent>
           </Modal>
         </>
-        <Button colorScheme="teal" size="md" /*onClick={returnHome}*/>Homeへ戻る</Button>
+        <Button
+          colorScheme="teal"
+          size="md"
+          onClick={() => handleNavigation('/')} >
+          Homeへ戻る
+        </Button>
       </div>
     </Box >
   );
